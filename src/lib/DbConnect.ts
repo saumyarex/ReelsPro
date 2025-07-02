@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const MONGO_URI : string = process.env.MONGOURI || "";
+const MONGO_URI : string = process.env.MONGO_URI || "";
 
 if(!MONGO_URI){
     throw new Error("Please provide MongoDB URI in .env")
