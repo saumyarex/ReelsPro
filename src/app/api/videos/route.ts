@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
             NextResponse.json({success: false, message:"All fields are required"}, {status: 400})
         }
 
-        DbConnect();
+        await DbConnect();
 
         const videoData : IVideo = {
             ...body,
@@ -57,7 +57,13 @@ export async function POST(req: NextRequest) {
 export async function GET() {
     try {
 
-        
+        const videos = await Video.find({}).sort({createdAt: -1}).lean()
+
+        if(!videos || videos.length === 0 ){
+             NextResponse.json([], {status: 200})
+        }
+        return NextResponse.json(videos)
+
         
     } catch (error) {
         console.log("Fetching video error : ", error)
