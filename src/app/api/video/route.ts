@@ -54,6 +54,21 @@ export async function POST(req: NextRequest) {
 }
 }
 
+export async function GET() {
+    try {
+
+        
+        
+    } catch (error) {
+        console.log("Fetching video error : ", error)
+    if(error instanceof Error){
+        NextResponse.json({success: false, message: error.message}, {status: 500})
+    }else{
+        NextResponse.json({success: false, message: "Internal server error"}, {status: 500})
+    }
+    }
+}
+
 
 
 
