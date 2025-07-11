@@ -14,13 +14,13 @@ export async function POST(request: NextRequest) {
 
         DbConnect();
 
-        const emailExist = await User.findOne({email})
+        const emailExist = await User.findOne({email : email.toLowerCase()})
         if(emailExist){
            return NextResponse.json({success: false, message:"Email already exist"},{status: 400})
         }
 
         await User.create({
-            email,
+            email : email.toLowerCase(),
             password
         })
 
