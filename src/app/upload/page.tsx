@@ -1,4 +1,4 @@
-"use client"; // This component must be a client component
+"use client";
 
 import {
   ImageKitAbortError,
@@ -10,7 +10,7 @@ import {
 import { useRef, useState } from "react";
 
 // UploadExample component demonstrates file uploading using ImageKit's Next.js SDK.
-const UploadExample = () => {
+const UploadVideo = () => {
   // State to keep track of the current upload progress (percentage)
   const [progress, setProgress] = useState(0);
 
@@ -119,7 +119,7 @@ const UploadExample = () => {
   };
 
   return (
-    <>
+    <div>
       {/* File input element using React ref */}
       <input type="file" ref={fileInputRef} />
       {/* Button to trigger the upload process */}
@@ -129,8 +129,8 @@ const UploadExample = () => {
       <br />
       {/* Display the current upload progress */}
       Upload progress: <progress value={progress} max={100}></progress>
-    </>
+    </div>
   );
 };
 
-export default UploadExample;
+export default UploadVideo;
