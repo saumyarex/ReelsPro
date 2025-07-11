@@ -16,7 +16,7 @@ if(!cached){
 export default async function DbConnect() {
 
     if(cached.connection){
-        console.log(cached.connection)
+        //console.log(cached.connection)
         return cached.connection;
     }
 
