@@ -11,9 +11,11 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOption);
     console.log(session)
     const user = session?.user;
+    console.log(session)
+    console.log("logged in user",user)
 
     if(!user){
-        NextResponse.json({success: false, message:"Unauthorized request. Please login!"}, {status: 401})
+        return NextResponse.json({success: false, message:"Unauthorized request. Please login!"}, {status: 401})
     }
 
     try {
@@ -21,7 +23,7 @@ export async function POST(req: NextRequest) {
         const body : IVideo = await req.json();
 
         if( !body.title || !body.description || !body.videoURL || !body.thumbnailURL){
-            NextResponse.json({success: false, message:"All fields are required"}, {status: 400})
+           return NextResponse.json({success: false, message:"All fields are required"}, {status: 400})
         }
 
         await DbConnect();
@@ -40,7 +42,7 @@ export async function POST(req: NextRequest) {
         const newVideo = await Video.create(videoData)
 
         if(!newVideo){
-            NextResponse.json({success: false, message:"Uploading failed"}, {status: 500})
+           return NextResponse.json({success: false, message:"Uploading failed"}, {status: 500})
         }
 
         return NextResponse.json({success: true, message:"Video uploaded successfully", videoURl : newVideo.videoURL}, {status: 201})
@@ -48,9 +50,9 @@ export async function POST(req: NextRequest) {
 } catch (error) {
     console.log("Error uploaing video : ", error)
     if(error instanceof Error){
-        NextResponse.json({success: false, message: error.message}, {status: 500})
+        return NextResponse.json({success: false, message: error.message}, {status: 500})
     }else{
-        NextResponse.json({success: false, message: "Internal server error"}, {status: 500})
+        return NextResponse.json({success: false, message: "Internal server error"}, {status: 500})
     }
 }
 }
@@ -61,7 +63,7 @@ export async function GET() {
         const videos = await Video.find({}).sort({createdAt: -1}).lean()
 
         if(!videos || videos.length === 0 ){
-             NextResponse.json([], {status: 200})
+            return NextResponse.json([], {status: 200})
         }
         return NextResponse.json(videos)
 
@@ -69,9 +71,9 @@ export async function GET() {
     } catch (error) {
         console.log("Fetching video error : ", error)
     if(error instanceof Error){
-        NextResponse.json({success: false, message: error.message}, {status: 500})
+        return NextResponse.json({success: false, message: error.message}, {status: 500})
     }else{
-        NextResponse.json({success: false, message: "Internal server error"}, {status: 500})
+        return NextResponse.json({success: false, message: "Internal server error"}, {status: 500})
     }
     }
 }
