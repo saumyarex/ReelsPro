@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
 
         const videoData : IVideo = {
             ...body,
+            userId: user?.id as string,
             controls: body?.controls || true,
             transformation : {
                 height : 1080,
