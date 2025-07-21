@@ -60,12 +60,14 @@ export async function POST(req: NextRequest) {
 export async function GET() {
     try {
 
+        await DbConnect();
+
         const videos = await Video.find({}).sort({createdAt: -1}).lean()
 
         if(!videos || videos.length === 0 ){
-            return NextResponse.json([], {status: 200})
+            return NextResponse.json({videos : [], message:"No videos found"}, {status: 200})
         }
-        return NextResponse.json(videos)
+        return NextResponse.json({ videos }, { status: 200 });
 
         
     } catch (error) {
