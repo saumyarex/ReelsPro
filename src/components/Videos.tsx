@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Link from "next/link";
 
 function Videos() {
   const [success, setSuccess] = useState(false);
@@ -46,17 +47,19 @@ function Videos() {
   // }, []);
 
   return (
-    <div className="w-full">
+    <div className="w-full mt-5">
       <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 mx-2 ">
         {videos.map((video, index) => (
-          <div key={index}>
-            <video title="Video" className="rounded-lg">
-              <source src={video} />
-            </video>
-            <h2 className="ml-1 font-semibold ">
-              Wealth creation games are positive sum games
-            </h2>
-          </div>
+          <Link href={"/video"} key={index}>
+            <div className="">
+              <video title="Video" className="rounded-lg">
+                <source src={video} />
+              </video>
+              <h2 className="ml-1 font-semibold h-12 overflow-hidden text-ellipsis line-clamp-2">
+                Wealth creation games are positive sum games
+              </h2>
+            </div>
+          </Link>
         ))}
       </div>
       {error && (

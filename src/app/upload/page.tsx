@@ -9,10 +9,10 @@ import {
 } from "@imagekit/next";
 import { LoaderCircle } from "lucide-react";
 import axios from "axios";
-import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 function UploadPage() {
-  const { data: session } = useSession();
+  const router = useRouter();
   const [publishActive, setPublishActive] = useState(false);
   const [videoDetails, setVideoDetails] = useState({
     title: "",
@@ -20,7 +20,6 @@ function UploadPage() {
     videoURL: "",
     thumbnailURL: "",
   });
-  const [url, setUrl] = useState("");
 
   const [publishing, setpublishing] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -74,10 +73,13 @@ function UploadPage() {
     const file = fileInput.files[0];
     if (file.size > 1024 * 1024 * 100) {
       console.log("Video size should be less than 100Mb");
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 2000);
       setErrorMessage("Video size should be less than 100Mb");
       return;
     }
-    return;
     // Retrieve authentication parameters for the upload.
     let authParams;
     try {
@@ -114,7 +116,11 @@ function UploadPage() {
         abortSignal: abortController.signal,
       });
       console.log("Upload response:", uploadResponse);
-      setUrl(uploadResponse.url || "");
+      setVideoDetails({
+        ...videoDetails,
+        videoURL: uploadResponse.url || "",
+        thumbnailURL: uploadResponse.url || "",
+      });
     } catch (error) {
       // Handle specific error types provided by the ImageKit SDK.
       if (error instanceof ImageKitAbortError) {
@@ -168,17 +174,14 @@ function UploadPage() {
 
   const publishVideo = async (e: React.FocusEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setVideoDetails({
-      ...videoDetails,
-      videoURL: url,
-      thumbnailURL: url,
-    });
+
     try {
       setpublishing(true);
       console.log("Uploading video data", videoDetails);
       const response = await axios.post("/api/videos", videoDetails);
       console.log("upload success", response);
       setSuccess(true);
+      router.push("/");
     } catch (error: unknown) {
       console.error("uploading error : ", error);
       if (error instanceof axios.AxiosError) {
