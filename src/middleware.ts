@@ -12,7 +12,7 @@ export default withAuth(
         const url = req.nextUrl;
 
         // public paths
-        if(url.pathname === "/" || url.pathname.startsWith("/api/videos") || url.pathname.startsWith("/profile")){
+        if(url.pathname === "/" || url.pathname.startsWith("/api/videos") || url.pathname.startsWith("/profile") || url.pathname.startsWith("/api/videos") || url.pathname.startsWith("/video")){
             return true;
         }
 
