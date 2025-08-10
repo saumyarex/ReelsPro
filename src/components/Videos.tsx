@@ -39,7 +39,10 @@ function Videos() {
     <div className="w-full mt-5">
       <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 mx-2 ">
         {videos.map((video) => (
-          <Link href={"/video"} key={video._id?.toString()}>
+          <Link
+            href={`video/${video._id?.toString()}`}
+            key={video._id?.toString()}
+          >
             <div className="">
               <video title="Video" className="rounded-lg">
                 <source src={video.videoURL} />
