@@ -2,61 +2,50 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import { IVideo } from "@/models/Video";
 
 function Videos() {
-  const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [videos, setVideos] = useState([
-    "/v.mp4",
-    "/v.mp4",
-    "/v.mp4",
-    "/v.mp4",
-    "/v.mp4",
-    "/v.mp4",
-    "/v.mp4",
-    "/v.mp4",
-    "/v.mp4",
-    "/v.mp4",
-    "/v.mp4",
-  ]);
-  console.log(videos);
-  // async function fetchVideos() {
-  //   try {
-  //     const response = await axios.get("/api/videos");
-  //     console.log("videos response", response.data);
-  //     setVideos(response.data.videos);
-  //   } catch (error) {
-  //     if (error instanceof axios.AxiosError) {
-  //       setErrorMessage(error.response?.data.message);
-  //     } else if (error instanceof Error) {
-  //       setErrorMessage(error.message);
-  //     } else {
-  //       setErrorMessage("Video fetching failed. Try again");
-  //     }
-  //     setError(true);
-  //     setTimeout(() => {
-  //       setError(false);
-  //     }, 2000);
-  //   }
-  // }
+  const [videos, setVideos] = useState<IVideo[]>([]);
 
-  // useEffect(() => {
-  //   fetchVideos();
-  // }, []);
+  console.log(videos);
+
+  async function fetchVideos() {
+    try {
+      const response = await axios.get("/api/videos");
+      console.log("videos response", response.data);
+      setVideos(response.data.videos);
+    } catch (error) {
+      if (error instanceof axios.AxiosError) {
+        setErrorMessage(error.response?.data.message);
+      } else if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage("Video fetching failed. Try again");
+      }
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 2000);
+    }
+  }
+
+  useEffect(() => {
+    fetchVideos();
+  }, []);
 
   return (
     <div className="w-full mt-5">
-      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2 mx-2 ">
-        {videos.map((video, index) => (
-          <Link href={"/video"} key={index}>
+      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 mx-2 ">
+        {videos.map((video) => (
+          <Link href={"/video"} key={video._id?.toString()}>
             <div className="">
               <video title="Video" className="rounded-lg">
-                <source src={video} />
+                <source src={video.videoURL} />
               </video>
               <h2 className="ml-1 font-semibold h-12 overflow-hidden text-ellipsis line-clamp-2">
-                Wealth creation games are positive sum games
+                {video.title}
               </h2>
             </div>
           </Link>
