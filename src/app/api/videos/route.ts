@@ -57,12 +57,21 @@ export async function POST(req: NextRequest) {
 }
 }
 
-export async function GET() {
+export async function GET(req:NextRequest) {
     try {
 
-        await DbConnect();
+        const {searchParams} = new URL(req.url)
+        const userId = searchParams.get("userId")
 
-        const videos = await Video.find({}).sort({createdAt: -1}).lean()
+        await DbConnect();
+        let videos;
+
+        if(userId === "all"){
+            videos = await Video.find({}).sort({createdAt: -1}).lean()
+        }else{
+             videos = await Video.find({userId}).sort({createdAt: -1}).lean()
+        }
+        
 
         if(!videos || videos.length === 0 ){
             return NextResponse.json({videos : [], message:"No videos found"}, {status: 200})
