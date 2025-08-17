@@ -4,17 +4,18 @@ import axios from "axios";
 import Link from "next/link";
 import { IVideo } from "@/models/Video";
 
-function Videos() {
+function Videos({ userId = "all" }) {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [videos, setVideos] = useState<IVideo[]>([]);
 
   console.log(videos);
+  console.log("userid : ", userId);
 
   async function fetchVideos() {
     try {
-      const response = await axios.get("/api/videos");
-      console.log("videos response", response.data);
+      const response = await axios.get(`/api/videos/?userId=${userId}`);
+      console.log("videos response", response);
       setVideos(response.data.videos);
     } catch (error) {
       if (error instanceof axios.AxiosError) {
