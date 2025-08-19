@@ -12,6 +12,7 @@ function NavBar() {
   const [mobileMenuActive, setMobileMenuActive] = useState(false);
 
   const { data: session } = useSession();
+  console.log("session", session?.user?.id);
 
   const router = useRouter();
 
@@ -89,7 +90,7 @@ function NavBar() {
               </Link>
             </div>
             <div
-              className="relative"
+              className="relative z-40"
               onMouseEnter={() => setProfileMenuDisplay(true)}
               onMouseLeave={() => setProfileMenuDisplay(false)}
             >
@@ -102,7 +103,7 @@ function NavBar() {
               {profileMenuDisaplay && (
                 <div className="h-20 absolute -right-5">
                   <div className="bg-gray-950 border-1 border-gray-200 px-5 py-2 rounded-md w-full   mt-2 text-white">
-                    <Link href={"/profile"}>
+                    <Link href={`/profile/${session?.user?.id}`}>
                       <button className="hover:cursor-pointer hover:text-gray-400">
                         Profile
                       </button>
