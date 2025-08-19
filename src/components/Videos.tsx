@@ -3,8 +3,15 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { IVideo } from "@/models/Video";
+import { EllipsisVertical } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 function Videos({ userId = "all" }) {
+  const { data: session } = useSession();
+  console.log("session", session?.user?.id);
+
+  const [editMenuActive, setEditMenuActive] = useState(false);
+  const [currentVideoMenu, setCurrentVideoMenu] = useState("");
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [videos, setVideos] = useState<IVideo[]>([]);
@@ -36,23 +43,46 @@ function Videos({ userId = "all" }) {
     fetchVideos();
   }, []);
 
+  const activeMenu = (videoId) => {
+    setCurrentVideoMenu(videoId);
+    setEditMenuActive(!editMenuActive);
+  };
+
   return (
     <div className="w-full mt-5">
       <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 mx-2 ">
         {videos.map((video) => (
-          <Link
-            href={`video/${video._id?.toString()}`}
-            key={video._id?.toString()}
-          >
-            <div className="">
+          <div className="relative" key={video._id?.toString()}>
+            <Link href={`/video/${video._id?.toString()}`}>
               <video title="Video" className="rounded-lg">
                 <source src={video.videoURL} />
               </video>
-              <h2 className="ml-1 font-semibold h-12 overflow-hidden text-ellipsis line-clamp-2">
-                {video.title}
-              </h2>
-            </div>
-          </Link>
+            </Link>
+
+            {session?.user?.id === userId ? (
+              <div
+                className="absolute top-0 right-0 bg-gray-900/50 hover:bg-gray-900/90 p-2 rounded-full hover:cursor-pointer active:bg-gray-900/90 "
+                onClick={() => activeMenu(video._id?.toString())}
+              >
+                <EllipsisVertical className=" text-white" />
+              </div>
+            ) : null}
+
+            {editMenuActive && currentVideoMenu === video._id?.toString() && (
+              <div className="absolute top-10 right-2 bg-white/70 flex flex-col items-start rounded-xs ">
+                <button className="hover:bg-gray-200 px-3 w-full rounded-xs active:bg-gray-400">
+                  <Link href={`/update/${video._id?.toString()}`}>Edit</Link>
+                </button>
+                <button className="hover:bg-gray-200 px-3 w-full rounded-xs active:bg-gray-400">
+                  Delete
+                </button>
+              </div>
+            )}
+
+            <h2 className="ml-1 font-semibold h-12 overflow-hidden text-ellipsis line-clamp-2">
+              {video.title}
+            </h2>
+          </div>
         ))}
       </div>
       {error && (
