@@ -44,7 +44,7 @@ function NavBar() {
     <nav className="p-7 border-b-2 border-gray-200">
       <ul className="flex sm:flex-row flex-col sm:gap-5 sm:space-y-0 space-y-4 justify-between items-center">
         {/* Logo */}
-        <li className="text-2xl md:text-3xl font-black ">
+        <li className="text-2xl relative z-40 md:text-3xl font-black ">
           <Link href={"/"}>REELSPRO</Link>
         </li>
 
