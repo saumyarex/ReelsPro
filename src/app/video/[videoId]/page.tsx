@@ -30,7 +30,7 @@ function Video() {
     <>
       {video ? (
         <div className="min-h-screen flex justify-center">
-          <div className="p-5 pb-7 relative  max-h-screen  flex flex-col items-center">
+          <div className="p-5 pb-7 relative z-0  max-h-screen  flex flex-col items-center">
             <video
               title="Video"
               className="rounded-lg bg-black h-full "
