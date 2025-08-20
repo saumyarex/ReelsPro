@@ -22,9 +22,15 @@ A full-stack web application built with Next.js that lets users seamlessly uploa
 
 ### Home pages
 
+#### Guest home page
+
 ![home](./public/Home1.jpg)
 
+#### User home page
+
 ![logged in home](./public/Home2.jpg)
+
+#### Mobile home screen
 
 ![mobile home](./public/Home3.jpg)
 
@@ -39,6 +45,18 @@ A full-stack web application built with Next.js that lets users seamlessly uploa
 ### User profile page
 
 ![user profile](./public/profile.jpg)
+
+### Upload page
+
+![user profile](./public/upload.jpg)
+
+### Update page
+
+![user profile](./public/update.jpg)
+
+### Delete page
+
+![user profile](./public/delete.jpg)
 
 ## Getting Started
 
