@@ -2,7 +2,6 @@
 import React from "react";
 import { useParams } from "next/navigation";
 import Videos from "@/components/Videos";
-import { EllipsisVertical } from "lucide-react";
 
 function Profile() {
   const { user } = useParams();
