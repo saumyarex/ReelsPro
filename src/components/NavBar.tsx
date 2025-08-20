@@ -12,7 +12,6 @@ function NavBar() {
   const [mobileMenuActive, setMobileMenuActive] = useState(false);
 
   const { data: session } = useSession();
-  console.log("session", session?.user?.id);
 
   const router = useRouter();
 
@@ -45,7 +44,9 @@ function NavBar() {
     <nav className="p-7 border-b-2 border-gray-200">
       <ul className="flex sm:flex-row flex-col sm:gap-5 sm:space-y-0 space-y-4 justify-between items-center">
         {/* Logo */}
-        <li className="text-2xl md:text-3xl font-black ">REELSPRO</li>
+        <li className="text-2xl md:text-3xl font-black ">
+          <Link href={"/"}>REELSPRO</Link>
+        </li>
 
         {/* Serach box */}
         <li className="w-full ">
@@ -163,7 +164,7 @@ function NavBar() {
             <>
               {mobileMenuActive && (
                 <div className="flex flex-col mt-2 self-start text-lg w-full font-medium ">
-                  <Link href={"/profile"}>
+                  <Link href={`/profile/${session?.user?.id}`}>
                     <button className=" bg-white dark:bg-[#0a0a0a] dark:active:text-gray-500 active:text-gray-500 w-full py-2 rounded-t border-b-1 border-gray-300">
                       Profile
                     </button>
